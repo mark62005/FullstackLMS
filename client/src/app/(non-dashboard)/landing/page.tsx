@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { UseCarousel } from "@/hooks/useCarousel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const HERO_IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 
@@ -13,6 +14,55 @@ const FEATURED_COURSES_TAGS = [
 	"javascript",
 	"backend development",
 ];
+
+function LoadingSkeleton() {
+	return (
+		<div className="w-3/4">
+			{/* HERO */}
+			<div className="flex justify-between items-center mt-12 h-[500px] rounded-lg bg-customgreys-secondarybg">
+				<div className="basis-1/2 px-16 mx-auto">
+					<Skeleton className="h-8 w-48 mb-4" />
+					<Skeleton className="h-4 w-96 mb-2" />
+					<Skeleton className="h-4 w-72 mb-8" />
+					<Skeleton className="w-40 h-10" />
+				</div>
+
+				<Skeleton className="basis-1/2 h-full rounded-r-lg" />
+			</div>
+
+			{/* FEATURED COURSES */}
+			<div className="mx-auto py-12 mt-10">
+				<Skeleton className="h-6 w-48 mb-4" />
+				<Skeleton className="h-4 w-full max-w-2xl mb-8" />
+
+				{/* TAGS */}
+				<div className="flex flex-wrap gap-4 mb-8">
+					{[1, 2, 3, 4, 5].map((_, index) => (
+						<Skeleton
+							key={index}
+							className="w-24 h-6 rounded-full"
+						/>
+					))}
+				</div>
+
+				{/* COURSES */}
+				<div
+					className="
+            grid grid-cols-1 gap-6
+            md:grid-cols-2 lg:grid-cols-4
+          "
+				>
+					{[1, 2, 3, 4].map((_, index) => (
+						<Skeleton
+							key={index}
+							className="h-[300px] rounded-lg"
+						/>
+					))}
+				</div>
+			</div>
+		</div>
+	);
+}
 
 function Landing() {
 	const currentImage = UseCarousel({ totalImages: 3 });
