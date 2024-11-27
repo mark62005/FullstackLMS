@@ -42,3 +42,7 @@ next-env.d.ts
 ## Backend
 
 */dist
+
+# DynamoDB
+server/dynamodb-local-metadata.json
+shared-local-instance.db
