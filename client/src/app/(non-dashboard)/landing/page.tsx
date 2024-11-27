@@ -6,6 +6,14 @@ import { UseCarousel } from "@/hooks/useCarousel";
 
 const HERO_IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 
+const FEATURED_COURSES_TAGS = [
+	"web development",
+	"enterprise IT",
+	"react nextjs",
+	"javascript",
+	"backend development",
+];
+
 function Landing() {
 	const currentImage = UseCarousel({ totalImages: 3 });
 
@@ -60,6 +68,45 @@ function Landing() {
 							)}
 						/>
 					))}
+				</div>
+			</motion.section>
+
+			{/* FEATURED COURSES */}
+			<motion.section
+				className="mx-auto py-12 mt-10"
+				initial={{ y: 20, opacity: 0 }}
+				animate={{ y: 0, opacity: 1 }}
+				transition={{ duration: 0.5 }}
+				viewport={{ amount: 0.3, once: true }}
+			>
+				{/* TITLE AND DESCRIPTION */}
+				<h2 className="text-2xl font-semibold mb-4">Featured Courses</h2>
+				<p className="text-customgreys-dirtyGrey mb-8">
+					From beginner to advanced, in all industries, we have the right
+					courses just for you and preparing your entire journey for learning
+					and making the most.
+				</p>
+
+				{/* TAGS */}
+				<div className="flex flex-wrap gap-4 mb-8">
+					{FEATURED_COURSES_TAGS.map((tag, index) => (
+						<span
+							key={index}
+							className="px-3 py-1 bg-customgreys-secondarybg rounded-full text-sm"
+						>
+							{tag}
+						</span>
+					))}
+				</div>
+
+				{/* COURSES */}
+				<div
+					className="
+            grid grid-cols-1 gap-6
+            md:grid-cols-2 lg:grid-cols-4
+          "
+				>
+					{/* TODO: Fetch and display courses from backend */}
 				</div>
 			</motion.section>
 		</motion.div>
