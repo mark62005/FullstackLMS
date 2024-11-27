@@ -1,5 +1,6 @@
 import NonDashboardNavbar from "@/components/shared/navbar/NonDashboardNavbar";
 import Landing from "./(non-dashboard)/landing/page";
+import Footer from "@/components/shared/Footer";
 
 export default function Home() {
 	return (
@@ -9,6 +10,8 @@ export default function Home() {
 			<main className="flex flex-grow w-full h-full justify-center items-center">
 				<Landing />
 			</main>
+
+			<Footer />
 		</div>
 	);
 }
