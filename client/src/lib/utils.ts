@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
  * @param cents
  * @returns formatted currency string in CAD
  */
-export function formatPrice(cents: number | undefined): string {
+export function getFormattedPrice(cents: number | undefined): string {
 	return new Intl.NumberFormat("en-CA", {
 		style: "currency",
 		currency: "CAD",
