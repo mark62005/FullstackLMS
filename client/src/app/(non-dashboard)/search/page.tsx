@@ -16,12 +16,6 @@ function Search() {
 
 	const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
-	function onCourseCardClick(course: Course) {
-		setSelectedCourse(course);
-
-		router.push(`/search?id=${course.courseId}`);
-	}
-
 	useEffect(() => {
 		if (courses) {
 			if (id) {
@@ -32,6 +26,12 @@ function Search() {
 			}
 		}
 	}, [courses, id]);
+
+	function onCourseCardClick(course: Course) {
+		setSelectedCourse(course);
+
+		router.push(`/search?id=${course.courseId}`);
+	}
 
 	if (isLoading) return <Loading />;
 	if (isError || !courses) return <div>Failed to fetch courses.</div>;
