@@ -78,6 +78,10 @@ function Landing() {
 		router.push(`/search?id=${courseId}`);
 	}
 
+	if (isLoading) {
+		return <LoadingSkeleton />;
+	}
+
 	return (
 		<motion.div
 			className="w-3/4"
