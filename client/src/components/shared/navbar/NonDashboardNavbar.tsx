@@ -40,23 +40,23 @@ function NonDashboardNavbar() {
 						</div>
 					</div>
 				</div>
-			</div>
 
-			{/* RIGHT SIDE */}
-			<div className="flex items-center gap-2 sm:gap-4">
-				{/* TODO: Add notification functionality */}
-				<button className="relative w-7 h-7 sm:w-8 sm:h-8 bg-gray-800 rounded-full flex items-center justify-center">
-					<span
-						className="
+				{/* RIGHT SIDE */}
+				<div className="flex items-center gap-2 sm:gap-4">
+					{/* TODO: Add notification functionality */}
+					<button className="relative w-7 h-7 sm:w-8 sm:h-8 bg-gray-800 rounded-full flex items-center justify-center">
+						<span
+							className="
               absolute top-0 right-0 bg-blue-500 h-1.5 w-1.5 rounded-full 
               sm:h-2 sm:w-2
             "
-					></span>
-					<Bell className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
-				</button>
+						></span>
+						<Bell className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+					</button>
 
-				{/* SIGN IN BUTTONS */}
-				<div className="">{/* TODO: Sign in functionality */}</div>
+					{/* SIGN IN BUTTONS */}
+					<div className="">{/* TODO: Sign in functionality */}</div>
+				</div>
 			</div>
 		</nav>
 	);
