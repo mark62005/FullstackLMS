@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { UseCarousel } from "@/hooks/useCarousel";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetCoursesQuery } from "@/state/api";
+import CourseCardSearch from "@/components/courses/search/CourseCardSearch";
 
 const HERO_IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 
@@ -67,7 +70,17 @@ function LoadingSkeleton() {
 }
 
 function Landing() {
+	const router = useRouter();
+	const { data: courses, isLoading, isError } = useGetCoursesQuery({});
 	const currentImage = UseCarousel({ totalImages: 3 });
+
+	function onCourseCardClick(courseId: string) {
+		router.push(`/search?id=${courseId}`);
+	}
+
+	if (isLoading) {
+		return <LoadingSkeleton />;
+	}
 
 	return (
 		<motion.div
@@ -158,7 +171,21 @@ function Landing() {
             md:grid-cols-2 lg:grid-cols-4
           "
 				>
-					{/* TODO: Fetch and display courses from backend */}
+					{courses &&
+						courses.slice(0, 4).map((course, index) => (
+							<motion.div
+								key={course.courseId}
+								initial={{ y: 50, opacity: 0 }}
+								animate={{ y: 0, opacity: 1 }}
+								transition={{ duration: 0.5, delay: index * 0.2 }}
+								viewport={{ amount: 0.4 }}
+							>
+								<CourseCardSearch
+									course={course}
+									onClick={() => onCourseCardClick(course.courseId)}
+								/>
+							</motion.div>
+						))}
 				</div>
 			</motion.section>
 		</motion.div>
