@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { UseCarousel } from "@/hooks/useCarousel";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetCoursesQuery } from "@/state/api";
 
 const HERO_IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 
@@ -67,7 +68,10 @@ function LoadingSkeleton() {
 }
 
 function Landing() {
+	const { data: courses, isLoading, isError } = useGetCoursesQuery({});
 	const currentImage = UseCarousel({ totalImages: 3 });
+
+	console.log("courses: ", courses);
 
 	return (
 		<motion.div
