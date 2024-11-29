@@ -81,6 +81,7 @@ function Landing() {
 	if (isLoading) {
 		return <LoadingSkeleton />;
 	}
+	if (isError || !courses) return <div>Failed to fetch courses.</div>;
 
 	return (
 		<motion.div
