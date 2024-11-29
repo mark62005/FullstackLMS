@@ -85,7 +85,6 @@ const courseSchema = new Schema(
 		},
 		description: {
 			type: String,
-			required: true,
 		},
 		category: {
 			type: String,
@@ -93,11 +92,9 @@ const courseSchema = new Schema(
 		},
 		image: {
 			type: String,
-			required: true,
 		},
 		price: {
 			type: Number,
-			required: true,
 		},
 		level: {
 			type: String,
@@ -109,7 +106,7 @@ const courseSchema = new Schema(
 			required: true,
 			enum: ["Draft", "Published"],
 		},
-		section: {
+		sections: {
 			type: Array,
 			schema: [sectionSchema],
 		},
