@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, getFormattedPrice } from "@/lib/utils";
 import { Course } from "@/types";
 import Image from "next/image";
 
@@ -52,7 +52,9 @@ function CourseCardSearch({
 
 				{/* PRICE AND ENROLLMENT */}
 				<div className="flex justify-between items-center mt-1">
-					<p className="text-primary-500 font-semibold">${course.price}</p>
+					<p className="text-primary-500 font-semibold">
+						{getFormattedPrice(course.price)}
+					</p>
 					<p className="text-customgreys-dirtyGrey text-sm">
 						{course.enrollments?.length} Enrolled
 					</p>
