@@ -7,6 +7,7 @@ import { useGetCoursesQuery } from "@/state/api";
 import { Course } from "@/types";
 import Loading from "@/components/shared/Loading";
 import CourseCardSearch from "@/components/courses/search/CourseCardSearch";
+import SelectedCourse from "@/components/courses/search/SelectedCourse";
 
 function Search() {
 	const router = useRouter();
@@ -33,6 +34,10 @@ function Search() {
 		router.push(`/search?id=${course.courseId}`);
 	}
 
+	function onEnrollNowButtonClick(courseId: string) {
+		router.push(`/checkout?step=1&id=${courseId}&showSignUp=false`);
+	}
+
 	if (isLoading) return <Loading />;
 	if (isError || !courses) return <div>Failed to fetch courses.</div>;
 
@@ -52,6 +57,7 @@ function Search() {
           md:flex-row
         "
 			>
+				{/* AVAILABLE COURSES GRID */}
 				<motion.div
 					className="
             basis-3/5 grid grid-cols-1 gap-6 auto-rows-fr
@@ -73,6 +79,23 @@ function Search() {
 						/>
 					))}
 				</motion.div>
+
+				{/* SELECTED COURSE DETAILS */}
+				{selectedCourse && (
+					<motion.div
+						className="
+              basis-2/5 min-w-[350px] h-fit border-2 border-primary-600 bg-customgreys-secondarybg overflow-hidden rounded-lg
+            "
+						initial={{ y: 40, opacity: 0 }}
+						animate={{ y: 0, opacity: 1 }}
+						transition={{ duration: 0.5, delay: 0.5 }}
+					>
+						<SelectedCourse
+							course={selectedCourse}
+							onEnrollNowButtonClick={onEnrollNowButtonClick}
+						/>
+					</motion.div>
+				)}
 			</div>
 		</motion.div>
 	);
