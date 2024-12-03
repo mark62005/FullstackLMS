@@ -12,7 +12,7 @@ function SignUpComponent() {
 
 	const signInUrl = isCheckoutPage
 		? `/checkout?step=1&id=${courseId}&showSignUp=false`
-		: "/sign-up";
+		: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL;
 
 	function getRedirectUrl(): string {
 		if (isCheckoutPage) {
