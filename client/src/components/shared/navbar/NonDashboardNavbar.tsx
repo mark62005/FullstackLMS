@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { Bell, BookOpen } from "lucide-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 function NonDashboardNavbar() {
+	const { user } = useUser();
+	const userRole = user?.publicMetadata?.userType as "student" | "teacher";
+
 	return (
 		<nav className="w-full flex justify-center bg-customgreys-primarybg">
 			{/* LEFT SIDE */}
@@ -55,7 +62,47 @@ function NonDashboardNavbar() {
 					</button>
 
 					{/* SIGN IN BUTTONS */}
-					<div className="">{/* TODO: Sign in functionality */}</div>
+					{/* WHEN USER'S SIGNED IN */}
+					<SignedIn>
+						<UserButton
+							appearance={{
+								baseTheme: dark,
+								elements: {
+									userButtonOuterIdentifier: "text-customgreys-dirtyGrey",
+									userButtonBox: "scale-90 sm:scale-100",
+								},
+							}}
+							showName={true}
+							userProfileMode="navigation"
+							userProfileUrl={
+								userRole === "teacher" ? "/teacher/profile" : "/user/profile"
+							}
+						/>
+					</SignedIn>
+					{/* WHEN USER'S SIGNED OUT */}
+					<SignedOut>
+						<Link
+							href={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL ?? "/sign-in"}
+							className="
+								text-customgreys-dirtyGrey px-3 py-1.5 text-sm
+								rounded-md border-customgreys-dirtyGrey border-[1px]  
+								sm:px-4 sm:py-2 sm:text-base
+								hover:bg-customgreys-darkerGrey hover:text-white-50 
+							"
+						>
+							Login
+						</Link>
+						<Link
+							href={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL ?? "/sign-up"}
+							className="
+								bg-indigo-600 px-3 py-1.5 rounded-md text-sm 
+								sm:px-4 sm:py-2 sm:text-base
+								hover:bg-primary-600 hover:text-customgreys-primarybg 
+							"
+						>
+							Create an Account
+						</Link>
+					</SignedOut>
 				</div>
 			</div>
 		</nav>
