@@ -1,0 +1,55 @@
+"use client";
+
+import { ReactNode, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+
+import Loading from "@/components/shared/Loading";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/shared/AppSidebar";
+import DashboardNavbar from "@/components/shared/navbar/DashboardNavbar";
+
+type DashboardLayoutProps = {
+	children: ReactNode;
+};
+
+function DashboardLayout({ children }: DashboardLayoutProps) {
+	const pathname = usePathname();
+	const [courseId, setCourseId] = useState<string | null>(null);
+	const { user, isLoaded } = useUser();
+
+	/* TODO: Handle useEffect isCoursePage */
+
+	if (!isLoaded) return <Loading />;
+	if (!user) return <div>Please sign in to access this page.</div>;
+
+	return (
+		<SidebarProvider>
+			<div className="min-h-screen w-full bg-customgreys-primarybg flex">
+				{/* SIDEBAR */}
+				<AppSidebar />
+
+				{/* MAIN CONTENT */}
+				<div className="flex flex-1 overflow-hidden">
+					{/* CHAPTER SIDEBAR */}
+
+					{/* BODY */}
+					<div
+						className={cn(
+							`
+                flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg
+              `,
+							""
+						)}
+						style={{ height: "100vh" }}
+					>
+						<DashboardNavbar isCoursePage={false} />
+						<main className="px-8 py-4">{children}</main>
+					</div>
+				</div>
+			</div>
+		</SidebarProvider>
+	);
+}
+export default DashboardLayout;
