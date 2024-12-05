@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { getFormattedPrice } from "@/lib/utils";
-import { Course } from "@/types";
 import AccordionSections from "../AccordionSections";
 
 type SelectedCourseProps = {
