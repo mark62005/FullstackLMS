@@ -1,5 +1,4 @@
 import { cn, getFormattedPrice } from "@/lib/utils";
-import { Course } from "@/types";
 import Image from "next/image";
 
 type CourseCardSearchProps = {
