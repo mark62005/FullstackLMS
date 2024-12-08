@@ -17,3 +17,12 @@ export function getFormattedPrice(cents: number | undefined): string {
 		currency: "CAD",
 	}).format((cents || 0) / 100);
 }
+
+/**
+ * Capitalize a word.
+ *
+ * @param word
+ */
+export function capitalize(word: string) {
+	return word[0].toLocaleUpperCase() + word.slice(1);
+}
