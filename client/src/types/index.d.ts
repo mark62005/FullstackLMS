@@ -50,8 +50,6 @@ declare global {
 		email: string;
 		publicMetadata: {
 			userType: "teacher" | "student";
-		};
-		privateMetadata: {
 			settings?: UserSettings;
 			// TODO: Payment info
 		};
