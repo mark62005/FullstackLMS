@@ -102,7 +102,7 @@ export const api = createApi({
 		 * @param id: ID of a course
 		 */
 		getCourse: build.query<Course, string>({
-			query: (id) => `course/${id}`,
+			query: (id) => `courses/${id}`,
 			providesTags: (results, error, id) => [
 				{
 					type: "Courses",
