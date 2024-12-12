@@ -1,8 +1,9 @@
+import { FormEvent } from "react";
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { CreditCard } from "lucide-react";
 
 type PaymentFormProps = {
-	handleSubmit: () => void;
+	handleSubmit: (e: FormEvent) => void;
 };
 
 function PaymentForm({ handleSubmit }: PaymentFormProps) {

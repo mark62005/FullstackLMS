@@ -1,7 +1,11 @@
+import { FormEvent } from "react";
 import { useElements, useStripe } from "@stripe/react-stripe-js";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useCheckoutNavigation } from "@/hooks/useCheckoutNavigation";
 import { useCurrentCourse } from "@/hooks/useCurrentCourse";
+import { useCreateTransactionMutation } from "@/state/api";
+
+import { toast } from "sonner";
 import StripeProvider from "./StripeProvider";
 import CoursePreview from "@/components/checkout/CoursePreview";
 import PaymentForm from "@/components/checkout/payment/PaymentForm";
@@ -12,16 +16,60 @@ function PaymentPageContent() {
 	const elements = useElements();
 	const { user } = useUser();
 	const { signOut } = useClerk();
-	// TODO: const [createTransaction] = useCreateTransactionMutation();
+	const [createTransaction] = useCreateTransactionMutation();
 	const { navigateToStep } = useCheckoutNavigation();
 	const { course, courseId } = useCurrentCourse();
 
-	function handleSubmit() {
-		// TODO
+	async function handleSubmit(e: FormEvent) {
+		e.preventDefault();
+
+		if (!stripe || !elements) {
+			toast.error("Stripe service is not available. Please try again later.");
+			return;
+		}
+
+		if (!user) {
+			toast.error("User does not exist. Please sign in before purchasing.");
+			return;
+		}
+
+		if (!course) {
+			toast.error("404 Course not found.");
+			return;
+		}
+
+		const result = await stripe.confirmPayment({
+			elements,
+			confirmParams: {
+				return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`,
+			},
+			redirect: "if_required",
+		});
+
+		if (result.paymentIntent?.status === "succeeded") {
+			const transactionData: Partial<Transaction> = {
+				transactionId: result.paymentIntent.id,
+				userId: user.id,
+				courseId: courseId,
+				paymentProvider: "stripe",
+				amount: course.price || 0,
+			};
+
+			try {
+				await createTransaction(transactionData);
+				navigateToStep(3);
+			} catch (error) {
+				console.error("Error create transaction.", error);
+				toast.error(
+					"An error occured when creating a transaction. Please try again later."
+				);
+			}
+		}
 	}
 
-	function handleSignOutAndNavigate() {
-		// TODO
+	async function handleSignOutAndNavigate() {
+		await signOut();
+		navigateToStep(1);
 	}
 
 	if (!course) return null;
