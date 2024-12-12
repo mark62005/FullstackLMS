@@ -102,7 +102,7 @@ export const api = createApi({
 		 * @param id: ID of a course
 		 */
 		getCourse: build.query<Course, string>({
-			query: (id) => `course/${id}`,
+			query: (id) => `courses/${id}`,
 			providesTags: (results, error, id) => [
 				{
 					type: "Courses",
@@ -110,8 +110,42 @@ export const api = createApi({
 				},
 			],
 		}),
+
+		/* STRIPE */
+		/**
+		 * Create a Stripe payment intent.
+		 *
+		 */
+		createStripePaymentIntent: build.mutation<
+			{ clientSecret: string },
+			{ amount: number }
+		>({
+			query: ({ amount }) => ({
+				url: `transactions/stripe/payment-intent`,
+				method: "POST",
+				body: { amount },
+			}),
+		}),
+
+		/* TRANSACTION */
+		/**
+		 *	Create a transaction record when purchasing a course.
+		 *
+		 */
+		createTransaction: build.mutation<Transaction, Partial<Transaction>>({
+			query: (transaction) => ({
+				url: "transactions",
+				method: "POST",
+				body: transaction,
+			}),
+		}),
 	}),
 });
 
-export const { useUpdateUserMutation, useGetCoursesQuery, useGetCourseQuery } =
-	api;
+export const {
+	useUpdateUserMutation,
+	useGetCoursesQuery,
+	useGetCourseQuery,
+	useCreateTransactionMutation,
+	useCreateStripePaymentIntentMutation,
+} = api;

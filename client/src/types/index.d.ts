@@ -67,6 +67,28 @@ declare global {
 		Daily = NotificationFrequencyFromModule.Daily,
 		Weekly = NotificationFrequencyFromModule.Weekly,
 	}
+
+	/* TRANSACTION */
+	interface Transaction {
+		userId: string;
+		transactionId: string;
+		dateTime: string;
+		courseId: string;
+		paymentProvider: "stripe";
+		paymentMethodId?: string;
+		amount: number; // Stored in cents
+		savePaymentMethod?: boolean;
+	}
+
+	/* USER COURSE PROGRESS */
+	interface UserCourseProgress {
+		userId: string;
+		courseId: string;
+		enrollmentDate: string;
+		overallProgress: number;
+		sections: SectionProgress[];
+		lastAccessedTimestamp: string;
+	}
 }
 
 export {};

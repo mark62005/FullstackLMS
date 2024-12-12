@@ -16,3 +16,10 @@ export const notificationSettingsSchema = z.object({
 export type NotificationSettingsFormData = z.infer<
 	typeof notificationSettingsSchema
 >;
+
+/* GUEST CHECKOUT SCHEMA */
+export const guestCheckoutFormSchema = z.object({
+	email: z.string().email("Invalid email address, please try again."),
+});
+
+export type GuestCheckoutFormData = z.infer<typeof guestCheckoutFormSchema>;

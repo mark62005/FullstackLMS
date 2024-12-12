@@ -9,6 +9,8 @@ import dynamoose from "dynamoose";
 import pluralize from "pluralize";
 import dotenv from "dotenv";
 import Course from "../models/courseModel";
+import Transaction from "../models/transactionModel";
+import UserCourseProgress from "../models/userCourseProgressModel";
 
 dotenv.config();
 
@@ -45,7 +47,7 @@ console.warn = (message, ...args) => {
 };
 
 async function createTables() {
-	const models = [Course];
+	const models = [Course, Transaction, UserCourseProgress];
 
 	for (const model of models) {
 		const tableName = model.name;
