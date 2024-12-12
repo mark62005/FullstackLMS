@@ -126,6 +126,19 @@ export const api = createApi({
 				body: { amount },
 			}),
 		}),
+
+		/* TRANSACTION */
+		/**
+		 *	Create a transaction record when purchasing a course.
+		 *
+		 */
+		createTransaction: build.mutation<Transaction, Partial<Transaction>>({
+			query: (transaction) => ({
+				url: "transactions",
+				method: "POST",
+				body: transaction,
+			}),
+		}),
 	}),
 });
 
@@ -133,5 +146,6 @@ export const {
 	useUpdateUserMutation,
 	useGetCoursesQuery,
 	useGetCourseQuery,
+	useCreateTransactionMutation,
 	useCreateStripePaymentIntentMutation,
 } = api;
