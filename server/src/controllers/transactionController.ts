@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Stripe from "stripe";
 import dotenv from "dotenv";
+import { clerkClient } from "..";
 import Course from "../models/courseModel";
 import Transaction from "../models/transactionModel";
 import UserCourseProgress from "../models/userCourseProgressModel";
@@ -127,5 +128,42 @@ export async function createTransaction(
 		res
 			.status(500)
 			.json({ message: "Error creating transaction and enrollment.", error });
+	}
+}
+
+/**
+ * Query the transactions.
+ * If userId is provided, query the transactions of that user, else query all the transactions in database.
+ *
+ * @param userId ID of the user
+ */
+export async function listTransactions(
+	req: Request,
+	res: Response
+): Promise<void> {
+	const { userId } = req.body;
+
+	const user = await clerkClient.users.getUser(userId);
+	if (!user) {
+		res.status(404).json({ message: "User not found." });
+		return;
+	}
+
+	try {
+		const transactions = userId
+			? await Transaction.scan("userId").eq(userId).exec()
+			: Transaction.scan().exec();
+
+		if (!transactions) {
+			res.status(404).json({ message: "404 Transactions not found." });
+			return;
+		}
+
+		res.json({
+			message: "Transactions retrieved successfully.",
+			data: transactions,
+		});
+	} catch (error) {
+		res.status(500).json({ message: "Error retrieving transactions.", error });
 	}
 }
