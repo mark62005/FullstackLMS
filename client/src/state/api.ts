@@ -63,7 +63,7 @@ const customBaseQuery = async (
 export const api = createApi({
 	baseQuery: customBaseQuery,
 	reducerPath: "api",
-	tagTypes: ["Courses", "Users"],
+	tagTypes: ["Courses", "Transactions", "Users"],
 	endpoints: (build) => ({
 		// TODO: api endpoints
 
@@ -139,6 +139,15 @@ export const api = createApi({
 				body: transaction,
 			}),
 		}),
+		/**
+		 * Query the transactions.
+		 * If userId is provided, query the transactions of that user, else query all the transactions in database.
+		 *
+		 * @param userId ID of the user
+		 */
+		getTransactions: build.query<Transaction[], string>({
+			query: (userId) => `transactions?userId=${userId}`,
+		}),
 	}),
 });
 
@@ -146,6 +155,7 @@ export const {
 	useUpdateUserMutation,
 	useGetCoursesQuery,
 	useGetCourseQuery,
+	useGetTransactionsQuery,
 	useCreateTransactionMutation,
 	useCreateStripePaymentIntentMutation,
 } = api;
