@@ -141,9 +141,15 @@ export async function listTransactions(
 	req: Request,
 	res: Response
 ): Promise<void> {
-	const { userId } = req.body;
+	const { userId } = req.query;
+	if (!userId) {
+		res
+			.status(401)
+			.json({ message: "UserId is required, but it is not provided." });
+		return;
+	}
 
-	const user = await clerkClient.users.getUser(userId);
+	const user = await clerkClient.users.getUser(userId.toString());
 	if (!user) {
 		res.status(404).json({ message: "User not found." });
 		return;
