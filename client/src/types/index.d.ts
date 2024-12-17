@@ -62,6 +62,10 @@ declare global {
 		notificationFrequency?: NotificationFrequency;
 	}
 
+	interface CustomJwtSessionClaims {
+		userType: "teacher" | "student";
+	}
+
 	enum NotificationFrequency {
 		Immediate = NotificationFrequencyFromModule.Immediate,
 		Daily = NotificationFrequencyFromModule.Daily,
