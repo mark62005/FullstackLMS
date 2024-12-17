@@ -110,6 +110,54 @@ export const api = createApi({
 				},
 			],
 		}),
+		/**
+		 * Create a new course with id and name of the teacher.
+		 *
+		 * @param teacherId ID of the teacher
+		 * @param teacherName Name of the teacher
+		 */
+		createCourse: build.mutation<
+			Course,
+			{ teacherId: string; teacherName: string }
+		>({
+			query: (body) => ({
+				url: `courses`,
+				method: "POST",
+				body,
+			}),
+			invalidatesTags: ["Courses"],
+		}),
+		/**
+		 * Update an existing course with the courseId and formData.
+		 *
+		 * @param courseId ID of the course to update
+		 * @param formData Data of the course to be updated
+		 */
+		updateCourse: build.mutation<
+			Course,
+			{ courseId: string; formData: FormData }
+		>({
+			query: ({ courseId, formData }) => ({
+				url: `courses/${courseId}`,
+				method: "PUT",
+				body: formData,
+			}),
+			invalidatesTags: (result, error, { courseId }) => [
+				{ type: "Courses", id: courseId },
+			],
+		}),
+		/**
+		 * Delete a course with the courseId provided.
+		 *
+		 * @param courseId ID of the course to delete
+		 */
+		deleteCourse: build.mutation<{ message: string }, string>({
+			query: (courseId) => ({
+				url: `courses/${courseId}`,
+				method: "DELETE",
+			}),
+			invalidatesTags: ["Courses"],
+		}),
 
 		/* STRIPE */
 		/**
@@ -155,6 +203,9 @@ export const {
 	useUpdateUserMutation,
 	useGetCoursesQuery,
 	useGetCourseQuery,
+	useCreateCourseMutation,
+	useUpdateCourseMutation,
+	useDeleteCourseMutation,
 	useGetTransactionsQuery,
 	useCreateTransactionMutation,
 	useCreateStripePaymentIntentMutation,
