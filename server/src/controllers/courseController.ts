@@ -134,9 +134,9 @@ export async function updateCourse(req: Request, res: Response): Promise<void> {
 					: updateCourseData.sections;
 
 			updateCourseData.sections = sectionsData.map((section: any) => ({
-				...sectionsData,
+				...section,
 				sectionId: section.sectionId || uuidv4(),
-				chapters: sectionsData.chapters.map((chapter: any) => ({
+				chapters: section.chapters.map((chapter: any) => ({
 					...chapter,
 					chapterId: chapter.chapterId || uuidv4(),
 				})),
