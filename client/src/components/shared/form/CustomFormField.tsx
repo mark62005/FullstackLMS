@@ -45,6 +45,9 @@ interface CustomFormFieldProps {
 	disabled?: boolean;
 	isIcon?: boolean;
 	initialValue?: string | number | boolean | string[];
+	min?: number;
+	max?: number;
+	cols?: number;
 }
 
 function CustomFormField({
@@ -59,6 +62,9 @@ function CustomFormField({
 	disabled = false,
 	isIcon = false,
 	initialValue,
+	min,
+	max,
+	cols,
 }: CustomFormFieldProps) {
 	const { control } = useFormContext();
 
@@ -71,11 +77,12 @@ function CustomFormField({
 				return (
 					<Textarea
 						className={cn(
-							`border-none bg-customgreys-darkGrey p-4`,
+							`border-none bg-customgreys-darkGrey p-4 resize-none`,
 							inputClassName
 						)}
 						placeholder={placeholder}
 						rows={3}
+						cols={cols}
 						{...field}
 					/>
 				);
@@ -140,6 +147,8 @@ function CustomFormField({
 							inputClassName
 						)}
 						type="number"
+						min={min}
+						max={max}
 						placeholder={placeholder}
 						disabled={disabled}
 						{...field}
