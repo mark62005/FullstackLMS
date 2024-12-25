@@ -60,6 +60,9 @@ input[type="color"] {
 		--accent: theme("colors.primary.600");
 		--accent-foreground: theme("colors.white.50");
 
+		--destructive: 0 100% 50%;
+		--destructive-foreground: 210 40% 98%;
+
 		--border: theme("colors.customgreys.secondarybg");
 		--ring: theme("colors.primary.700");
 
@@ -90,6 +93,9 @@ input[type="color"] {
 
 		--accent: theme("colors.primary.600");
 		--accent-foreground: theme("colors.white.50");
+
+		--destructive: 0 100% 50%;
+		--destructive-foreground: 210 40% 98%;
 
 		--border: theme("colors.customgreys.secondarybg");
 		--ring: theme("colors.primary.700");
