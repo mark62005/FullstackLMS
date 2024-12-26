@@ -44,5 +44,6 @@ next-env.d.ts
 */dist
 
 # DynamoDB
-server/dynamodb-local-metadata.json
+dynamodb-local-metadata.json
+*/dynamodb-local-metadata.json
 shared-local-instance.db
