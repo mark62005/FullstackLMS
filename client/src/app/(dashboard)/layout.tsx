@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,7 @@ import Loading from "@/components/shared/Loading";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/shared/AppSidebar";
 import DashboardNavbar from "@/components/shared/navbar/DashboardNavbar";
+import ChaptersSidebar from "@/components/courses/view/chapters/ChaptersSidebar";
 
 type DashboardLayoutProps = {
 	children: ReactNode;
@@ -16,10 +17,20 @@ type DashboardLayoutProps = {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
 	const pathname = usePathname();
-	const [courseId, setCourseId] = useState<string | null>(null);
 	const { user, isLoaded } = useUser();
+	const [courseId, setCourseId] = useState<string | null>(null);
+	const isCoursePage = /^\/user\/courses\/[^\/]+(?:\/chapters\/[^\/]+)?$/.test(
+		pathname
+	);
 
-	/* TODO: Handle useEffect isCoursePage */
+	useEffect(() => {
+		if (isCoursePage) {
+			const match = pathname.match(/\/user\/courses\/([^\/]+)/);
+			setCourseId(match ? match[1] : null);
+		} else {
+			setCourseId(null);
+		}
+	}, [isCoursePage, pathname]);
 
 	if (!isLoaded) return <Loading />;
 	if (!user) return <div>Please sign in to access this page.</div>;
@@ -32,7 +43,8 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
 
 				{/* MAIN CONTENT */}
 				<div className="flex flex-1 overflow-hidden">
-					{/* CHAPTER SIDEBAR */}
+					{/* CHAPTERS SIDEBAR */}
+					{courseId && <ChaptersSidebar />}
 
 					{/* BODY */}
 					<div
@@ -40,7 +52,9 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
 							`
                 flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg
               `,
-							""
+							{
+								"bg-customgreys-primarybg": courseId,
+							}
 						)}
 						style={{ height: "100vh" }}
 					>
