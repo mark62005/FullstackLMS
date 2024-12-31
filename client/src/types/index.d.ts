@@ -93,6 +93,21 @@ declare global {
 		sections: SectionProgress[];
 		lastAccessedTimestamp: string;
 	}
+
+	interface ChapterProgress {
+		chapterId: string;
+		completed: boolean;
+	}
+
+	interface SectionProgress {
+		sectionId: string;
+		chapters: ChapterProgress[];
+	}
+
+	interface DateRange {
+		from: string | undefined;
+		to: string | undefined;
+	}
 }
 
 export {};
