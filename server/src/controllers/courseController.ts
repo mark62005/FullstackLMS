@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "@clerk/express";
+import AWS from "aws-sdk";
 import Course from "../models/courseModel";
+
+const s3 = new AWS.S3();
 
 /**
  * If category is provided, return a list of courses of that category. Otherwise, return a list of all the courses.
@@ -186,5 +189,40 @@ export async function deleteCourse(req: Request, res: Response): Promise<void> {
 		});
 	} catch (error) {
 		res.status(500).json({ message: "Error deleting course.", error });
+	}
+}
+
+export async function getUploadVideoUrl(
+	req: Request,
+	res: Response
+): Promise<void> {
+	const { fileName, fileType } = req.body;
+
+	if (!fileName || !fileType) {
+		res.status(400).json({ message: "File name and type are required." });
+		return;
+	}
+
+	try {
+		const uniqueId = uuidv4();
+		const s3Key = `videos/${uniqueId}/${fileName}`;
+
+		const s3Params = {
+			Bucket: process.env.S3_BUCKET_NAME || "",
+			Key: s3Key,
+			Expires: 60,
+			ContentType: fileType,
+		};
+
+		// Get a pre-signed url from S3 for uploading videos through API Gateway
+		const uploadUrl = s3.getSignedUrl("putObject", s3Params);
+		const videoUrl = `${process.env.CLOUDFRONT_DOMAIN}/videos/${uniqueId}/${fileName}`;
+
+		res.json({
+			message: "UploadURL generated successfully.",
+			data: { uploadUrl, videoUrl },
+		});
+	} catch (error) {
+		res.status(500).json({ message: "Error generating uploadURL.", error });
 	}
 }
